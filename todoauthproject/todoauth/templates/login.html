@@ -91,7 +91,16 @@
 <body>
 
     <div class="container">
+        {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
         <h2>Login Account</h2>
+
+
 
         <form method="POST">
             {% csrf_token %}
@@ -114,7 +123,7 @@
         </form>
 
         <div class="footer">
-            Dont  have an account? <a href="#">Signin</a>
+            Dont  have an account? <a href="{% url 'signup' %}">Signup</a>
         </div>
     </div>
 
