@@ -108,7 +108,9 @@ def todopage(request):
         
         if request.method=="POST":
             
-            title=request.POST.get
+            title=request.POST.get(title=title)
+            
+            
             
         
         
