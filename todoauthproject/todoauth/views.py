@@ -9,24 +9,71 @@ from django.contrib.auth.decorators import login_required
 def signup(request):
     
     if request.method=="POST":
+        
         username=request.POST.get("username")
         email=request.POST.get("email")
         password=request.POST.get("password")
-        # conform_password=request.POST.get("conform_password")      
-        if User.objects.filter(username=username).exists():
-            messages.error(request,"username already exists")
+        
+        
+        if User.objects.filter(username=username,email=email).exists():
             
-            return redirect("signup")
-
-
-        user=User.objects.create_user(username=username,email=email,password=password)
+            messages.error(request,"Username  or email already exists")
+            
+            
+            return redirect('signup')
+        
+        
+        user=User.objects.create_user(username=username,password=password,email=email)
+        
         
         user.save()
+         
+        messages.success("Account Created suucessfully , please login")
         
         
-        messages.success(request,"Account Created successfully , please login")
         return redirect('login')
+    
     return render(request,'signup.html')
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # if request.method=="POST":
+    #     username=request.POST.get("username")
+    #     email=request.POST.get("email")
+    #     password=request.POST.get("password")
+    #     # conform_password=request.POST.get("conform_password")      
+    #     if User.objects.filter(username=username,email=email).exists():
+    #         messages.error(request,"username or email  already exists")
+            
+    #         return redirect("signup")
+
+
+    #     user=User.objects.create_user(username=username,email=email,password=password)
+        
+    #     user.save()
+        
+        
+    #     messages.success(request,"Account Created successfully , please login")
+    #     return redirect('login')
+    # return render(request,'signup.html')
 
 
 
@@ -41,13 +88,15 @@ def login_view(request):
         
         if user is not None:
             login(request,user)
+            messages.success(request,"login success")
             return redirect('home')
-            messages.success(request,"password doesnt match plese try again")
+            
             
         else:
+            messages.error(request,"password doesnt match plese try again")
             return redirect('login')
         
-            messages.error(request,"password doesnt match plese try again")
+            
     
     
     
@@ -55,6 +104,10 @@ def login_view(request):
    
                 
 @login_required
-def homepage(request):
+def todopage(request):
+        
+        if request.method=="POST":
+            
+        
         
         return render(request,'todopage.html')            
