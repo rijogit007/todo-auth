@@ -22,8 +22,11 @@ def signup(request):
             
             return redirect('signup')
         
+        if not username or not email or not password:
+          messages.error(request, "All fields are required")
+          return redirect("/")
         
-        user=User.objects.create_user(username=username,password=password,email=email)
+        user=User.objects.create_user(username=username,email=email)
         
         
         user.save()
@@ -102,17 +105,21 @@ def login_view(request):
     
     return render(request,'login.html')
    
-                
+from .models import Todo         
 @login_required
 def todopage(request):
         
         if request.method=="POST":
             
-            title=request.POST.get(title=title)
+            title=request.POST.get("title")
             
-            obj=models.Todo(title=title,user=request.user)
-            obj.save()
             
+            data=Todo.objects.create(title=title,user=request.user)
+            data.save()
+            
+        list_data = Todo.objects.filter(
+           title=title,
+           user=request.user
+)
         
-        
-        return render(request,'todopage.html')            
+        return render(request,'todopage.html',{"data":data})            
