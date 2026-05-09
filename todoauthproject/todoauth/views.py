@@ -110,7 +110,8 @@ def todopage(request):
             
             title=request.POST.get(title=title)
             
-            
+            obj=models.Todo(title=title,user=request.user)
+            obj.save()
             
         
         
