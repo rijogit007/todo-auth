@@ -108,6 +108,8 @@ def todopage(request):
         
         if request.method=="POST":
             
+            title=request.POST.get
+            
         
         
         return render(request,'todopage.html')            
